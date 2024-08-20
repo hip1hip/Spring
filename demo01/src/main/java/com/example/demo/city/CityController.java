@@ -1,9 +1,12 @@
 package com.example.demo.city;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -34,18 +37,44 @@ public class CityController {
 	}
 	
 	@GetMapping("/add")
-	public String add() {
+	public String addForm(Model m) {
+		ArrayList<String> list = new ArrayList<>();
+		list.add("AFG");
+		list.add("NLD");
+		list.add("DZA");
+		list.add("ARE");
+		list.add("ARG");
+		list.add("AZE");
+		list.add("BHR");
+		
+		m.addAttribute("list" , list );
 		return "city/add";
 	}
 	
 	@PostMapping("/add")
-	public String add() {
-		
+	public String add(City city) {  //시티 정보를 받아서 
+		service.addCity(city);
+		return "index";
 	}
 	
 	
+	@RequestMapping("/list")
+	public String list(Model m) {
+		m.addAttribute("list", service.getAll());
+		return "city/list";
+	}
 	
+	@PostMapping("/edit")
+	public String edit(City city) {
+		service.editCity(city);
+		return "index";
+	}
 	
+	@GetMapping("/del")
+	public String del(int id) {
+		service.delCity(id);
+		return "index";
+	}
 	
 	
 	
