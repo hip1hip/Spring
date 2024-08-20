@@ -1,0 +1,22 @@
+package com.example.demo.city;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CityService {
+	@Autowired
+	private CityDao dao;
+	
+	public City getCity(int id) {
+		return dao.select(id);
+	}  
+	//id 로 검색하는 
+	
+	
+	public void addCity(City city) {
+		dao.insert(city);
+	}
+	
+
+}
