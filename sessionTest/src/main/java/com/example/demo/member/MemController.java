@@ -107,19 +107,29 @@ public class MemController {
 	@PostMapping("/edit")
 	public String edit(Member member) {
 		service.editMem(member);
-		return "index";
+		return "redirect:/index.jsp";
 	}
 	
 	
+	@GetMapping("/out")
+	public String out(HttpSession session) {
+		String loginId = ((String)session.getAttribute("loginId") );
+		service.delMem(loginId);
+		return "redirect:/member/logout";
+				
+	}  //forward : 서버 내에서 이동 , url 안바뀜 / member/join => index / 계속 새로고침하면 반복됨 
+		//redirect : 새요청 시킴 , req. /member/join => index
 	
 	
 	
+
 	
 	
-	
-	
-	
-	
+	@PostMapping("/temp/session")
+	public String sessionTest(String msg  , HttpSession session) {
+		session.setAttribute("msg", msg);
+	return "/temp/session";
+	}
 	
 
 	

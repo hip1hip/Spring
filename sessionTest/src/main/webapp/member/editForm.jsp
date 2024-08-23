@@ -9,18 +9,37 @@
 <body>
 	<h3>상세 정보</h3>
 	<form action="/member/edit" method="post">
-		아이디 : ${member.id } <input type="hidden" name="id" value="${member.id}"><br/>
-		이름 : <input type="text" name="name"> <br/>
-		이메일 :  <input type="text" name="email"><br/>
-		타입 : ${member.type } 
-		<select name="type">
-			<option value=""> --선택-- </option>
-			<option value="판매자" > 판매자 </option>
-			<option value="구매자" > 구매자 </option>
-		</select>
-		<br/>
-		<button type="submit" > 완료 </button>
-	
+		<table border="1">
+		<tr>
+			<th> 아이디 : </th>
+			<td> <input type="text" name="id" value="${member.id}" readonly></td>
+			
+		</tr>
+		<tr>	
+	ㄴ		<th> 이름 : </th>
+			<td> <input type="text" name="name">  </td>
+		</tr>	
+		<tr>
+			<th> 이메일 : </th>
+			<td>  <input type="text" name="email"></td>
+		</tr>		
+		<tr>
+			<th> 타입 : ${member.type }  </th>
+			<td> 
+				<select name="type">
+					<option value=""> --선택-- </option>
+					<option value="판매자" > 판매자 </option>
+					<option value="구매자" > 구매자 </option>
+				</select>
+			</td>
+		</tr>	
+		<tr>
+			<th>   </th>
+			<td> <button type="submit" > 완료 </button> </td>
+		</tr>			
+		
+
+		</table>
 	</form>
 </body>
 </html>

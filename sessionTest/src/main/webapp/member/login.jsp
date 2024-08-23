@@ -8,7 +8,7 @@
 
 <script type="text/javascript">
 
-/* 	const a = () => {
+	const a = () => {
 		// 비동기 요청 객체 생성
 		let req = new XMLHttpRequest(); 
 		
@@ -34,7 +34,7 @@
 		//요청 전송 
 		req.send();
 	}
- */
+
 
 </script>
 </head>
