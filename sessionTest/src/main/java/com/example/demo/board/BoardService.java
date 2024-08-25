@@ -34,8 +34,6 @@ public class BoardService {
 		dao.delete(num);
 	}
 	
-	
-	
-	
+
 
 }

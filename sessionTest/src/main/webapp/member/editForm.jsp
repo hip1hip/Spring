@@ -16,7 +16,7 @@
 			
 		</tr>
 		<tr>	
-	ㄴ		<th> 이름 : </th>
+			<th> 이름 : </th>
 			<td> <input type="text" name="name">  </td>
 		</tr>	
 		<tr>

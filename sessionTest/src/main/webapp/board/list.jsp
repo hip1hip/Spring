@@ -45,7 +45,22 @@
 </script>
 <body>
 	<h3>게시판</h3>
-	<p><a href=""> 오늘 읽은 글 목록 </a>  ( 쿠키에 저장되어있는 글목록을 ArrayList에 담아 출력 ) </p>
+	<p>오늘 읽은 글 목록 </p>
+	<c:if test="${not empty readPosts}">
+		<ul>
+			<c:forEach var="postNum" items="${readPosts}">
+				<li><a href="/board/detail?num=${postNum}">게시글 번호: ${postNum}</a></li>
+
+			</c:forEach>
+		</ul>
+	</c:if>
+	<c:if test="${empty readPosts}">
+		<p>오늘 읽은 글이 없습니다.</p>
+	</c:if>
+
+
+
+
 	<span id="res" style="position:absolute; top:200px; left:300px"></span>
 	<a href="/board/add"> 글작성</a> <br/>
 	
