@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ditail</title>
+</head>
+<script type="text/javascript">
+	const d = () => {
+		location.href = "/prod/del?num=[[${p.num}]]";
+	}
+</script>
+<body>
+	<h3>상품 상세 페이지</h3>
+	<form action="/prod/edit" method="post">
+		<table border="1">
+			<tr>
+				<th>num</th>
+				<td><input type="text" name="num" th:value="${p.num }" readonly></td>
+			</tr>
+			<tr>
+				<th>name</th>
+				<td><input type="text" name="name" th:value="${p.name}" th:readonly="${session.loginId != p.seller.id  }" ></td>
+			</tr>
+			<tr>
+				<th>price</th>
+				<td><input type="text" name="price" th:value="${p.price }" th:readonly="${session.loginId != p.seller.id  }"></td>
+			</tr>	
+			<tr>
+				<th>amount</th>
+				<td><input type="text" name="amount" th:value="${p.amount }" th:readonly="${session.loginId != p.seller.id  }"></td>
+			</tr>	
+			<tr>
+				<th>seller</th>
+				<td><input type="text" name="seller" th:value="${p.seller.id }" readonly></td>
+			</tr>	
+			<tr th:if="${session.loginId == p.seller.id}">
+				<td>편집</td>
+				<td><input type="submit" value="수정">
+					<input type="button" value="삭제" onclick="d()"></td>
+			</tr>
+			
+		</table>
+	</form>
+</body>
+</html>

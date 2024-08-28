@@ -85,10 +85,29 @@ public class ProductController {
 		return result;
 	}
 	
+	@GetMapping("/detail")
+	public void detail(int num, Model model) {
+		model.addAttribute("p", service.getProd(num));
+	}
 	
 	
 	
 	
+	@PostMapping("/edit")
+	public String edit(ProductDto p) {
+		ProductDto op = service.getProd(p.getNum());
+		op.setName(p.getName());
+		op.setPrice(p.getPrice());
+		op.setAmount(p.getAmount());
+		service.saveProd(op);
+		return "redirect:/prod/list";
+	}
+	
+	@GetMapping("/del")
+	public String del(int num) {
+		service.delProd(num);
+		return "redirect:/prod/list";
+	}
 	
 }
 
