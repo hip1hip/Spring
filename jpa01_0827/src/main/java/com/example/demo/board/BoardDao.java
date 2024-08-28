@@ -9,9 +9,9 @@ import com.example.demo.member.Member;
 
 @Repository
 public interface BoardDao extends JpaRepository<Board, Integer> {
-	//작성자로 검색 
-	ArrayList<Board> findByWriter(Member Wirter);
+	//작성자로 검색
+	ArrayList<Board> findByWriter(Member Writer);
 	
-	//타이틀로 검색 LIKE  
-	ArrayList<Board>  findByTitleLike(String title);
+	//타이틀(like) 검색
+	ArrayList<Board> findByTitleLike(String title);
 }

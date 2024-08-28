@@ -9,5 +9,3 @@ import org.springframework.stereotype.Repository;
 public interface GuestbookDao extends JpaRepository<Guestbook, Integer> {
 	ArrayList<Guestbook> findByWriter(String writer);
 }
-
-

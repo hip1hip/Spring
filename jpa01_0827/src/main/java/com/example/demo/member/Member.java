@@ -19,7 +19,6 @@ import lombok.ToString;
 @Entity  //jpa entitiy
 public class Member {
 	@Id   //pk 정의
-	@GeneratedValue(strategy = GenerationType.IDENTITY) //자동 넘버링
 	private String id;
 	private String pwd;
 	private String name;

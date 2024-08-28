@@ -2,8 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시판</title>
-
+<title>Insert title here</title>
 <script type="text/javascript">
 	const a = (num) => {
 
@@ -18,7 +17,7 @@
 			let obj = JSON.parse(req.responseText);
 			let txt = "글 상세내용<br/>";
 			txt += "num:"+obj.num+"<br/>";
-			txt += "writer:"+obj.writer+"<br/>";
+			txt += "writer:"+obj.writer.id+"<br/>";
 			txt += "wdate:"+obj.wdate+"<br/>";
 			txt += "title:"+obj.title+"<br/>";
 			txt += "content:"+obj.content+"<br/>";
@@ -52,18 +51,20 @@
 <a href="/board/today">오늘 읽은 글목록</a><br/>
 <a href="/board/add">글작성</a><br/>
 <select id="gettype">
-    <option value="writer">작성자</option>
-    <option value="title">제목</option>
+	<option value="writer">작성자</option>
+	<option value="title">제목</option>
 </select>
 <input type="text" id="search">
 <input type="button" value="검색" onclick="c()">
 <table border="1">
-    <tr><th>num</th><th>title</th><th>writer</th></tr>
-    <tr th:each="b:${list}">
-        <td><a th:href="@{/board/detail(num=${b.num})}" th:text="${b.num}"></a></td>
-        <td th:text="${b.title}" th:onmouseover="a([[${b.num}]])" onmouseout="b()"></td>
-        <td th:text="${b.writer}"></td>
-    </tr>
+	<tr><th>num</th><th>title</th><th>writer</th></tr>
+	
+		<tr th:each="b:${list}" >
+			<td><a th:href="@{/board/detail(num=${b.num})}" th:text="${b.num}"></a></td>
+			<td th:text="${b.title}" th:onmouseover="a([[${b.num}]])" onmouseout="b()"></td>
+			<td th:text="${b.writer.id}"></td>
+		</tr>
+	
 </table>
 
 </body>

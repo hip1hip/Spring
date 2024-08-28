@@ -16,27 +16,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Entity  //jpa entitiy
+@Entity   //jpa entity
 public class Guestbook {
 	@Id   //pk 정의
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //자동 넘버링
 	private int num;
 	
-	/* @Column(name="memberid", nullable) */
 	private String writer;
+	
 	private Date wdate;
 	private String pwd;
 	private String content;
-	
-	/*
-	 * @Transient private MultipartFile f;
-	 */
 	
 	@PrePersist //insert 전 자동호출
 	public void makeDate() {

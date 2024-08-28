@@ -11,6 +11,7 @@ public class GuestbookService {
 	private GuestbookDao dao;
 
 	// 글작성, 글수정
+	//save(): 방금 추가/수정 된 행을 entity에 담아서 반환
 	public GuestbookDto saveBook(GuestbookDto dto) {
 		Guestbook entity = dao
 				.save(new Guestbook(dto.getNum(), dto.getWriter(), dto.getWdate(), dto.getPwd(), dto.getContent()));
@@ -56,4 +57,12 @@ public class GuestbookService {
 		return list;
 	}
 }
+
+
+
+
+
+
+
+
 
