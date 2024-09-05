@@ -16,7 +16,16 @@ public class ServiceTest {
 	
 	@Test
 	void addTest() {
-		service.saveBook(new GuestbookDto(0, "bbb" , null, "111", "새글내용"));
+		GuestbookDto dto = service.getBook(1); //1번글 검색 
+		if(dto != null) {
+		dto.setWriter("asdf");
+		dto.setContent("가나다라마");
+		service.saveBook(dto);
+		}else {
+			System.out.println("없는 글");
+		}
+		
+//		service.saveBook(new GuestbookDto(0, "bbb" , null, "111", "새글내용"));
 		
 	}
 	
