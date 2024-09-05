@@ -10,7 +10,7 @@ import java.util.Optional;
 public class SellerService {
 
     @Autowired
-    private SellerDao sellerDao;
+    private SellerRepository sellerDao;
 
     public SellerDto createSeller(SellerDto sellerDTO) {
         Seller seller = new Seller();

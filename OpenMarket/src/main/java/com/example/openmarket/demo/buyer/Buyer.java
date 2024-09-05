@@ -1,5 +1,6 @@
 package com.example.openmarket.demo.buyer;
 
+import com.example.openmarket.demo.cart.Cart;
 import com.example.openmarket.demo.order.Order;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
