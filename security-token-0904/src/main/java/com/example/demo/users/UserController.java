@@ -17,7 +17,7 @@ import com.example.demo.auth.TokenProvider;
 
 @RestController
 @CrossOrigin(origins = "*")
-public class UserContoller {
+public class UserController {
 	@Autowired
 	private UsersService service;
 

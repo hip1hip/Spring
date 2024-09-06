@@ -1,5 +1,5 @@
 package com.example.openmarket.demo.product;
-import com.example.openmarket.demo.seller.Seller;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,9 +16,7 @@ public class Product {
     private String description;
     private int price;
     private int quantity;
-    private String imageUrl;
 
-    @ManyToOne
-    @JoinColumn(name = "seller_id", nullable = false)
-    private Seller seller;
+    // 이미지 파일 경로를 저장
+    private String imagePath;
 }
