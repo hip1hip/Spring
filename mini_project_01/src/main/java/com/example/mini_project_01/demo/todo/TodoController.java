@@ -16,14 +16,14 @@ public class TodoController {
 
     //todo 작성
     @PostMapping("")
-    public Map add(TodoDto to){
-        Map map = new HashMap();
+    public Todo add(@RequestBody TodoDto to){
+//        Map map = new HashMap();
         try {
-            service.save(to);
+            return service.save(to);
         } catch (Exception e){
             System.out.println(e);
         }
-        return map;
+        return null;
     }
 
     //전체조회

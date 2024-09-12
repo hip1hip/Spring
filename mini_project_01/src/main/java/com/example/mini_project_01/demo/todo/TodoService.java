@@ -12,8 +12,8 @@ public class TodoService {
     private TodoDao dao;
 
     //추가, 수정
-    public void save(TodoDto to){
-        dao.save(new Todo(to.getNum(), to.getContent()));
+    public Todo save(TodoDto to){
+        return dao.save(new Todo(to.getNum(), to.getContent()));
     }
 
     //수정
