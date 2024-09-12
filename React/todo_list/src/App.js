@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Link to="/userhome">메인 홈으로 </Link> |
-        <Link to="/todo/list">TodoList  </Link> |
+        <Link to="/todo/TodoRoot">TodoList  </Link> |
         <hr />
         <Router />
       </BrowserRouter>
