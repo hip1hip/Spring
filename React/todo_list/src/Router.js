@@ -1,16 +1,17 @@
-import { Routes, Route } from "react-router-dom"
-import Userhome from './components/todo/Userhome';
-import List from './components/todo/List';
+import { Routes, Route, Navigate } from "react-router-dom"
+import Userhome from './components/user/Userhome';
 import TodoRoot from './components/todo/TodoRoot';
-import Detail from './components/todo/Detail';
+import Login from "./components/user/Login";
+import Join from "./components/user/Join";
 
 export default function Router() {
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/userhome" />} />
       <Route path="/userhome" element={<Userhome />} />
-      <Route path="/todo/list" element={<List />} />
       <Route path="/todo/todoroot" element={<TodoRoot />} />
-      <Route path="/todo/detail/:todonum" element={<Detail />} />
+      <Route path="/user/login" element={<Login />} />
+      <Route path="/user/join" element={<Join />} />
 
 
     </Routes>
