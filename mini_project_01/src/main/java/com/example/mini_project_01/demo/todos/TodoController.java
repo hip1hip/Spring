@@ -1,4 +1,4 @@
-package com.example.mini_project_01.demo.todo;
+package com.example.mini_project_01.demo.todos;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +38,7 @@ public class TodoController {
     @PutMapping("")
     public Map edit(TodoDto to) {
         Map map = new HashMap();
-        TodoDto dto = service.getTodo(to.getNum());
+        TodoDto dto = service.getTodo(to.getId());
         dto.setContent(to.getContent());
         try {
             service.save(dto);
@@ -51,16 +51,16 @@ public class TodoController {
 
 
     //삭제
-    @DeleteMapping("/{num}")
-    public Map del(@PathVariable("num") int num){
-        Map map = new HashMap();
+    @DeleteMapping("/{id}")
+    public Map del(@PathVariable("id") int id){
+        Map<String, String> response = new HashMap<>();
         try{
-            service.delTodo(num);
-
+            service.delTodo(id);
+            response.put("status", "success");
         }catch (Exception e){
-            System.out.println(e);
+            response.put("status", "error");
         }
-        return map;
+        return response;
     }
 
 

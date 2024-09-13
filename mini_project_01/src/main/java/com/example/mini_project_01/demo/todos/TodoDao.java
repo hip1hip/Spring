@@ -1,4 +1,4 @@
-package com.example.mini_project_01.demo.todo;
+package com.example.mini_project_01.demo.todos;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

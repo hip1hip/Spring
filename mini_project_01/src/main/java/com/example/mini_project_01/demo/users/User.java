@@ -1,4 +1,4 @@
-package com.example.mini_project_01.demo.todo;
+package com.example.mini_project_01.demo.users;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,10 +11,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Entity  //jpa entitiy
-public class Todo {
-    @Id   //pk 정의
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int num;
-    private String content;
+@Entity
+public class User {
+    @Id
+    private String userid;
+    private String username;
+    private String password;
+
 }
