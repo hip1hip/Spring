@@ -11,11 +11,12 @@ function Add({ todos, setTodos }) {
 
   const addTodo = () => {
     // 서버로 전송할 데이터 설정
-    const newTodo = { content };
+    const newTodo = { content: content, userid: localStorage.getItem('userid') };
 
-    axios.post('http://localhost:8081/todos', newTodo)
+    axios.post('http://localhost:8081/todos', {}, { params: { ...newTodo } })
       .then(function (res) {
         if (res.status === 200) {
+          console.log(newTodo);
           // 성공 시 새로운 todo를 추가
 
 
