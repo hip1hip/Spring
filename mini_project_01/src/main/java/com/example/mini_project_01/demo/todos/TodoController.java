@@ -1,12 +1,15 @@
 package com.example.mini_project_01.demo.todos;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.font.ShapeGraphicAttribute;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RestController
 @CrossOrigin(origins = "*")  //요청받을 ip주소
 @RequestMapping("/todos")
@@ -16,8 +19,10 @@ public class TodoController {
 
     //todo 작성
     @PostMapping("")
-    public Todo add(@RequestBody TodoDto to){
+    public Todo add( TodoDto to){
 //        Map map = new HashMap();
+        log.info(to.toString() + "======================");
+        System.out.println(to);
         try {
             return service.save(to);
         } catch (Exception e){
