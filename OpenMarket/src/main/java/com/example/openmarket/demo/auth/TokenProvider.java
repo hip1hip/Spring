@@ -1,6 +1,7 @@
 package com.example.openmarket.demo.auth;
 
-import com.example.openmarket.demo.users.UserDto; // 수정된 패키지
+import com.example.openmarket.demo.member.Member;
+import com.example.openmarket.demo.member.MemberDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -19,32 +20,30 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor // 필요한 멤버 받는 생성자 자동 생성
 @Component
 public class TokenProvider {
-
-	// 토큰 유효 시간
-	private final long expiredTime = 1000 * 60 * 60 * 1L; // 1시간
+	// 토큰 유효 시간.
+	private final long expiredTime = 1000 * 60 * 60 * 1L;// 1시간
 
 	// 암호화에 사용할 키 생성
-	private final Key key = Keys.hmacShaKeyFor(
-					"dffasdfgeqrrthfghgfhjgdhgaipiohdfgghjghkjhkjhfsdfgjjhhgjgh".getBytes(StandardCharsets.UTF_8));
+	Key key = Keys.hmacShaKeyFor(
+			"dffasdfgeqrrthfghgfhjgdhgaipiohdfgghjghkjhkjhfsdfgjjhhgjgh".getBytes(StandardCharsets.UTF_8));
 
-	private final UserDetailsService userDetailsService;
+	private final UserDetailsService service;
 
 	// 토큰 생성하여 반환
-	public String getToken(UserDto dto) {
-		return Jwts.builder()
-						.setSubject(dto.getUsername()) // 사용자의 아이디
-						.setHeader(createHeader()) // 토큰의 헤더 정보 셋
-						.setClaims(createClaims(dto)) // 클레임 정보 셋
-						.setExpiration(new Date((new Date()).getTime() + expiredTime)) // 토큰 만료 시간 설정
-						.signWith(key, SignatureAlgorithm.HS256)
-						.compact();
+	public String getToken(MemberDto dto) {
+		return Jwts.builder().setSubject(dto.getId())// 토큰의 제목
+				.setHeader(createHeader())// 토큰의 헤더 정보 셋
+				.setClaims(createClaims(dto))// 클레임 정보 셋
+				.setExpiration(new Date((new Date()).getTime() + expiredTime)).signWith(key, SignatureAlgorithm.HS256)
+				.compact();
+
 	}
 
-	// 헤더 정보 생성해서 반환
-	private Map<String, Object> createHeader() {
+	// 헤더 정보 생성해서 반환. 토큰 종류, 암호화 알고리즘 종류, 등록 시간..
+	public Map<String, Object> createHeader() {
 		Map<String, Object> map = new HashMap<>();
 		map.put("typ", "JWT");
 		map.put("alg", "HS256");
@@ -52,17 +51,17 @@ public class TokenProvider {
 		return map;
 	}
 
-	// 클레임 생성해서 반환
-	private Map<String, Object> createClaims(UserDto dto) {
+	// 클레임 생성해서 반환. 인증자와 관련된 정보 등록
+	public Map<String, Object> createClaims(MemberDto dto) {
 		Map<String, Object> map = new HashMap<>();
-		map.put("username", dto.getUsername());
+		map.put("username", dto.getId());
 		map.put("roles", dto.getType());
 		return map;
 	}
 
 	// 클레임 바디 반환
 	private Claims getClaims(String token) {
-		return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+		return (Claims) Jwts.parserBuilder().setSigningKey(key).build().parse(token).getBody();
 	}
 
 	// username 반환
@@ -77,7 +76,7 @@ public class TokenProvider {
 
 	// 요청 헤더에서 토큰을 꺼내 반환
 	public String resolveToken(HttpServletRequest req) {
-		return req.getHeader("Authorization"); // 일반적으로 "Authorization" 헤더를 사용
+		return req.getHeader("token");
 	}
 
 	// 토큰 유효성 검사
@@ -86,17 +85,15 @@ public class TokenProvider {
 			Claims claims = getClaims(token);
 			return !claims.getExpiration().before(new Date());
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e);
 		}
 		return false;
 	}
 
-	// 토큰 인증
+	//토큰 인증
 	public Authentication getAuthenticate(String token) {
-		UserDetails userDetails = userDetailsService.loadUserByUsername(getUserName(token));
+		UserDetails user = service.loadUserByUsername(getUserName(token));
 		return new UsernamePasswordAuthenticationToken(
-						userDetails, "", userDetails.getAuthorities());
+				user, "", user.getAuthorities());
 	}
-
-
 }

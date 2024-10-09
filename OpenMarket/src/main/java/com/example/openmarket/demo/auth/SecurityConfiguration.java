@@ -1,32 +1,30 @@
 package com.example.openmarket.demo.auth;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
-import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import jakarta.servlet.DispatcherType;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Configuration
 public class SecurityConfiguration {
+	@Autowired
+	private final TokenProvider provider;
 
-	private final UserDetailsService userDetailsService;
-	private final TokenProvider tokenProvider;
-
-	public SecurityConfiguration(UserDetailsService userDetailsService, TokenProvider tokenProvider) {
-		this.userDetailsService = userDetailsService;
-		this.tokenProvider = tokenProvider;
-	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -34,22 +32,26 @@ public class SecurityConfiguration {
 	}
 
 	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+			throws Exception {
 		return authenticationConfiguration.getAuthenticationManager();
 	}
 
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http
-						.csrf(AbstractHttpConfigurer::disable)
-						.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-						.authorizeHttpRequests(authorize -> authorize
-										.requestMatchers("/auth/**").permitAll() // 인증 없이 접근 가능한 URL
-										.requestMatchers("/sellers/**").hasRole("SELLER") // SELLER 역할이 있어야 접근 가능한 URL
-										.requestMatchers("/buyers/**").hasRole("BUYER") // BUYER 역할이 있어야 접근 가능한 URL
-										.anyRequest().authenticated() // 나머지 요청은 인증 필요
-						)
-						.addFilterBefore(new JwtAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+		http.httpBasic(HttpBasicConfigurer::disable)
+				.csrf(CsrfConfigurer::disable)  //post, put, delete 요청 안먹음
+				.cors(Customizer.withDefaults())
+				.authorizeHttpRequests((authz)-> authz
+						.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()//forward 요청은 모두 허용
+						.requestMatchers("/auth/**", "/board/**").authenticated()  //url이 /auth/로 시작하면 인증을 요구
+						.requestMatchers("/", "/join", "/error", "/login", "/read-img/**").permitAll()
+						.anyRequest().permitAll()
+				)
+				//토큰 처리하는 필터를 현재 필터 앞에 붙임
+				.addFilterBefore(new JwtAuthenticationFilter(provider), UsernamePasswordAuthenticationFilter.class);
+		//세션 정책을 stateless로 설정. 상태유지 안함.
+		http.sessionManagement(configurer->configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		return http.build();
 	}
 }

@@ -1,6 +1,5 @@
 package com.example.openmarket.demo.order;
 
-import com.example.openmarket.demo.buyer.Buyer;
 import com.example.openmarket.demo.product.Product;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,9 +17,6 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private Buyer buyer;
 
     @ManyToOne
     @JoinColumn(nullable = false)
