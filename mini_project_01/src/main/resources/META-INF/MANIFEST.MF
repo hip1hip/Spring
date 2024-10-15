@@ -1,3 +1,0 @@
-Manifest-Version: 1.0
-Main-Class: com.example.mini_project_01.MiniProject01Application
-
