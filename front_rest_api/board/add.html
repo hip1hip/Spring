@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>글 작성</title>
+  <script>
+    const a = () => {
+      let loginId = localStorage.getItem('writer');
+      let req = new XMLHttpRequest();
+      req.onload = () => {
+        let obj = JSON.parse(req.responseText);
+        if (obj.flag != null) {
+          alert(obj.flag.num + "글작성 완료");
+          location.href = "./list.html";
+        }
+      }
+
+      let writer = document.getElementById("writer").value;
+      let title = document.getElementById("title").value;
+      let content = document.getElementById("content").value;
+
+      let params = "writer=" + writer + "&title=" + title + "&content=" + content;
+      alert(params);
+      req.open('post', 'http://localhost:8081/boards');
+      req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      req.send(params);
+    }
+
+  </script>
+
+</head>
+
+<body>
+  <h3>글 작성 </h3>
+  <table border="1">
+    <tr>
+      <th>writer</th>
+      <td><input type="text" id="writer" readonly></td>
+    </tr>
+    <tr>
+      <th>title</th>
+      <td><input type="text" id="title"></td>
+    </tr>
+    <tr>
+      <th>content</th>
+      <td><textarea rows="5" cols="30" id="content"></textarea></td>
+    </tr>
+    <tr>
+      <th>작성</th>
+      <td><input type="button" value="작성" onclick="a()"></td>
+    </tr>
+  </table>
+</body>
+
+</html>
