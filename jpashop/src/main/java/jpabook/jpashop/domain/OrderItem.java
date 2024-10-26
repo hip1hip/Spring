@@ -3,13 +3,16 @@ package jpabook.jpashop.domain;
 
 import jakarta.persistence.*;
 import jpabook.jpashop.domain.item.Item;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import static jakarta.persistence.FetchType.*;
 
 @Entity
 @Getter @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)  // 다른곳에서 new  로 새로운 인스턴스를 만들지 못하게 PROTECTED 로 설정
 public class OrderItem {
 
     @Id
@@ -42,7 +45,7 @@ public class OrderItem {
 
     // == 비스니스 로직 == //
     public void cancel() {
-        getItem().addStock(count);   // 재고 수량 원복
+        getItem().addStock(count);   // 캔슬 , 재고 수량 원복
     }
 
     

@@ -1,7 +1,9 @@
 package jpabook.jpashop.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -13,6 +15,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Entity
 @Table(name = "orders")
 @Getter @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order<T> {
 
     @Id
@@ -75,7 +78,7 @@ public class Order<T> {
         if (delivery.getStatus() == DeliveryStatus.COMP) {  // 배송완료 되면
             throw new IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다. ");
         }
-        this.setStatus(OrderStatus.CANCEL);
+        this.setStatus(OrderStatus.CANCEL); // 나의 상태를 캔슬
         for (OrderItem orderItem : orderItems)  {
             orderItem.cancel(); // 오더아이템에도 캔슬 해야하니깐
         }

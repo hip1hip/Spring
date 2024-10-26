@@ -40,11 +40,11 @@ public class OrderService {
 
 
         //주문 생성
-        Order oder = Order.createOder(member, delivery, orderItem);
+        Order order = Order.createOder(member, delivery, orderItem);
 
         //주문 저장
-        orderRepository.save(oder);
-        return oder.getId();
+        orderRepository.save(order);
+        return order.getId();
     }
 
 
