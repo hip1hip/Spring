@@ -19,7 +19,7 @@ import static jakarta.persistence.FetchType.LAZY;
 public class Order<T> {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue  //기본 키 하나씩 자동 증가 mysql 에 AUTO_INCREMENT
     @Column(name = "order_id")
     private Long id;
 
