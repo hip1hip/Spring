@@ -39,8 +39,6 @@ public class OrderRepository {
             jpql += " o.status = :status";
         }
 
-        //회원이름 검색
-
         //회원 이름 검색
         if (StringUtils.hasText(orderSearch.getMemberName())) {
             if (isFirstCondition) {
